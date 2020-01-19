@@ -1,7 +1,6 @@
 //! `cargo run --example async_download_example`
 //! `cargo run --example async_download_example --features="async_download"`
 
-use std::error::Error;
 use download_rs::async_download::Download;
 
 fn main() {

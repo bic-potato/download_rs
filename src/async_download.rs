@@ -54,6 +54,7 @@ impl<'a> Download<'a>{
     /// # Example
     ///
     /// ```rust
+    /// use download_rs::async_download::Download;
     /// #[tokio::main]
     ///async fn main() {
     ///    let url = "https://www.baidu.com/img/bd_logo1.png";
