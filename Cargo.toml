@@ -1,0 +1,73 @@
+[package]
+name = "download_rs"
+version = "0.1.0"
+authors = ["fengzhongyun1992 <1677658490@qq.com>"]
+edition = "2018"
+keywords = ["download"]
+license = "MIT/Apache-2.0"
+repository = "https://github.com/fengzhongyun1992/download_rs"
+
+# 文档处理
+[package.metadata.docs.rs]
+all-features = true
+
+
+# 例子
+[[example]]
+name = "sync_download_example"
+path = "examples/sync_download_example.rs"
+required-features = ["sync_download"]
+
+[[example]]
+name = "async_download_example"
+path = "examples/async_download_example.rs"
+required-features = ["async_download"]
+
+[[example]]
+name = "async_download_default_example"
+path = "examples/async_download_default_example.rs"
+required-features = ["async_download"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "download_rs"
+path = "src/lib.rs"
+
+
+[features]
+# 默认
+default = ["async_download"]
+
+full = ["sync_download","async_download"]
+
+# `#[cfg(feature = "sync_download")]`
+sync_download = []
+
+# `#[cfg(feature = "async_download")]`
+# 依赖 tokio, indicatif
+async_download = ["tokio","indicatif",]
+
+[dependencies]
+# optional 是否可选，在 features 中 可供 选择
+reqwest = { version = "0.10", features = ["blocking"] }
+tokio = { version = "0.2", features = ["full"] ,optional = true}
+indicatif = {version = "0.13.0", optional=true}
+
+
+# 指定测试时的 features 依赖
+[[test]]
+name = "sync_download"
+path = "tests/sync_download.rs"
+required-features = ["sync_download"]
+
+
+[[test]]
+name = "async_download"
+path = "tests/async_download.rs"
+required-features = ["async_download"]
+
+[[test]]
+name = "async_download_default"
+path = "tests/async_download_default.rs"
+required-features = ["async_download"]
+
