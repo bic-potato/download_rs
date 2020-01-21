@@ -1,5 +1,5 @@
 use tokio::fs;
-use reqwest::{Url};
+use reqwest::{Url, header};
 use tokio::prelude::*;
 use std::path::{Path, PathBuf};
 use tokio::runtime::Runtime;
@@ -10,7 +10,7 @@ use indicatif::{ProgressBar, ProgressStyle};
 /// out: 输出目录或输出文件路径
 pub struct Download<'a>{
     pub url: &'a str,
-    pub out: Option<&'a str>
+    pub out: Option<&'a str>,
 }
 
 impl<'a> Download<'a>{
@@ -42,7 +42,7 @@ impl<'a> Download<'a>{
    ///}
    ///
    /// ```
-    pub fn download(self) ->Result<(),  Box<dyn std::error::Error>> {
+    pub fn download(&self) ->Result<(),  Box<dyn std::error::Error>> {
         let mut rt = Runtime::new()?;
         rt.block_on(self.download_async())?;
 
@@ -75,7 +75,7 @@ impl<'a> Download<'a>{
     ///}
     ///
     /// ```
-    pub async fn download_async(self) ->Result<(),  Box<dyn std::error::Error>> {
+    pub async fn download_async(&self) ->Result<(),  Box<dyn std::error::Error>> {
 
 
         let mut out_dir = "";
@@ -83,7 +83,12 @@ impl<'a> Download<'a>{
         let path_url = Url::parse(self.url)?;
         let mut filename = path_url.path_segments().and_then(std::iter::Iterator::last).unwrap_or("tmp.bin");
 
-        let client =reqwest::Client::new();
+        let mut headers = header::HeaderMap::new();
+        headers.insert(header::USER_AGENT, header::HeaderValue::from_static("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"));
+
+
+        let client =reqwest::Client::builder().default_headers(headers)
+            .build()?;
         // 输出文件夹
         if let Some(output) = self.out {
             if Path::new(output).is_dir() {
@@ -121,6 +126,10 @@ impl<'a> Download<'a>{
         }
         println!("Download of '{}' has been completed.", out_filename.to_str().unwrap());
         Ok(())
+    }
+
+    pub fn set_proxy(&self){
+
     }
 
 }

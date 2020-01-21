@@ -2,6 +2,7 @@
 
 use download_rs::sync_download::Download;
 use std::error::Error;
+use std::fs;
 
 fn main() {
     let url = "https://www.baidu.com/img/bd_logo1.png";
@@ -19,4 +20,7 @@ fn main() {
         Ok(_) => println!("下载完成"),
         Err(e) => println!("下载出错 ： {}",e.to_string()),
     }
+
+    // 删除图片
+    fs::remove_file(filename).unwrap();
 }

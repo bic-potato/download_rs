@@ -1,4 +1,5 @@
 use download_rs::async_download::Download;
+use std::fs;
 
 #[tokio::main]
 async fn main() {
@@ -17,4 +18,6 @@ async fn main() {
         Err(e) => panic!("error: {}",e.to_string()),
         Ok(()) => println!("ok")
     }
+    // 删除图片
+    fs::remove_file(filename).unwrap();
 }

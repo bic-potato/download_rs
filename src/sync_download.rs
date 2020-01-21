@@ -1,6 +1,6 @@
 use std::fs;
 use std::path::{Path, PathBuf};
-use reqwest::Url;
+use reqwest::{Url, header};
 
 /// Download
 /// url ： 下载链接
@@ -45,7 +45,12 @@ impl<'a> Download<'a>{
         let path_url = Url::parse(self.url)?;
         let mut filename = path_url.path_segments().and_then(std::iter::Iterator::last).unwrap_or("tmp.bin");
 
-        let client =reqwest::blocking::Client::new();
+        let mut headers = header::HeaderMap::new();
+        headers.insert(header::USER_AGENT, header::HeaderValue::from_static("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"));
+        let client =reqwest::blocking::Client::builder()
+            .default_headers(headers)
+            //.no_proxy()
+            .build()?;
 
         if let Some(output) = self.out {
             if Path::new(output).is_dir() {

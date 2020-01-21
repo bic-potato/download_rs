@@ -8,7 +8,7 @@ mod async_tests {
     #[cfg(feature = "async_download")]
     fn async_download_test() {
         let url = "https://www.baidu.com/img/bd_logo1.png";
-        let filename = "async_bd_logo1.exe";
+        let filename = "async_bd_logo1.png";
 
         let download = async_download::Download{
             url,
