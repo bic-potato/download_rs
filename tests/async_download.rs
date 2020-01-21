@@ -2,7 +2,7 @@
 mod async_tests {
     use std::fs;
     use std::path::Path;
-    use download_rs::async_download;
+    use download_rs::async_download::Download;
 
     #[test]
     #[cfg(feature = "async_download")]
@@ -10,10 +10,7 @@ mod async_tests {
         let url = "https://www.baidu.com/img/bd_logo1.png";
         let filename = "async_bd_logo1.png";
 
-        let download = async_download::Download{
-            url,
-            out: Some(filename)
-        };
+        let download = Download::new(url,Some(filename),None);
         let ceshi_file = Path::new(filename);
         if ceshi_file.exists() {
             fs::remove_file(filename).unwrap();

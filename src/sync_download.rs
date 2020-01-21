@@ -5,12 +5,28 @@ use reqwest::{Url, header};
 /// Download
 /// url ： 下载链接
 /// out: 输出目录或输出文件路径
+/// proxy: 使用代理，发现 reqwest 自动使用系统代理不好用 ,
+///         目前只支持 http 代理 如：`http://127.0.0.1:7890` ,不支持 https,socks5代理（懒）
 pub struct Download<'a>{
-    pub url: &'a str,
-    pub out: Option<&'a str>
+     url: &'a str,
+     out: Option<&'a str>,
+     proxy: Option<&'a str>,
 }
 
 impl<'a> Download<'a>{
+
+    /// 创建 Download对象
+    /// url: 需要下载的url
+    /// out: 保存地址（具体文件夹或具体文件名）
+    /// proxy: 使用代理，发现 reqwest 自动使用系统代理不好用 ,
+    ///         目前只支持 http 代理 如：`http://127.0.0.1:7890` ,不支持 https,socks5代理（懒）
+    pub fn new(url:&'a str,out: Option<&'a str>,proxy: Option<&'a str>) -> Download<'a> {
+        return  Download{
+            url,
+            out,
+            proxy,
+        }
+    }
     /// 同步方法下载
    /// 没有下载进度条
    /// # Examples
@@ -27,10 +43,9 @@ impl<'a> Download<'a>{
     ///    // let filename = "/download/";
     ///    // 指定下载目录下载文件名,需要手动创建下载文件夹
     ///    // let filename = "download/bd_log1.png";
-    ///    let download = Download{
-    ///        url,
-    ///        out: Some(filename)
-    ///    };
+   ///    //let proxy = Some("http://127.0.0.1:7089");
+   ///    //let download = Download::new(url,Some(filename),proxy);
+    ///    let download = Download::new(url,Some(filename),None);
     ///    match download.download() {
     ///        Ok(_) => println!("下载完成"),
     ///        Err(e) => println!("下载出错 ： {}",e.to_string()),
@@ -47,9 +62,12 @@ impl<'a> Download<'a>{
 
         let mut headers = header::HeaderMap::new();
         headers.insert(header::USER_AGENT, header::HeaderValue::from_static("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"));
-        let client =reqwest::blocking::Client::builder()
+        let client_builder = match self.proxy {
+            None => reqwest::blocking::Client::builder().no_proxy(),
+            Some(proxy) => reqwest::blocking::Client::builder().proxy(reqwest::Proxy::all(proxy)?),
+        };
+        let client =client_builder
             .default_headers(headers)
-            //.no_proxy()
             .build()?;
 
         if let Some(output) = self.out {

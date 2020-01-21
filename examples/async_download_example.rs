@@ -12,10 +12,8 @@ fn main() {
     // let filename = "/download/";
     // 指定下载目录下载文件名,需要手动创建下载文件夹
     // let filename = "download/bd_log1.png";
-    let download = Download{
-        url,
-        out: Some(filename)
-    };
+    let download = Download::new(url,Some(filename),None);
+
     match download.download() {
         Ok(_) => println!("下载完成"),
         Err(e) => println!("下载出错 ： {}",e.to_string()),
