@@ -53,7 +53,7 @@ impl<'a> Download<'a>{
     /// }
    ///
    /// ```
-    pub fn download(&self) ->Result<(), Box<dyn std::error::Error>> {
+    pub fn download(&self) ->Result<u16, Box<dyn std::error::Error>> {
 
         let mut out_dir = "";
 
@@ -91,6 +91,6 @@ impl<'a> Download<'a>{
 
         std::io::copy(&mut resp,&mut dest)?;
 
-        Ok(())
+        Ok(resp.status().as_u16())
     }
 }
