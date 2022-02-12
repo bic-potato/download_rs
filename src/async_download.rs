@@ -1,6 +1,6 @@
-use tokio::fs;
+use tokio::{fs, io::AsyncWriteExt};
 use reqwest::{Url, header};
-use tokio::prelude::*;
+//use tokio::prelude::*;
 use std::path::{Path, PathBuf};
 use tokio::runtime::Runtime;
 use indicatif::{ProgressBar, ProgressStyle};

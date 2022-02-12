@@ -1,7 +1,6 @@
 ## download_rs
-使用rust写的一个简单 `download` 下载库
+使用rust写的一个简单 `download` 下载库，是`fengzhongyun1992`的[download_rs](https://crates.io/crates/download_rs)一个 fork ，并且对依赖和 Rust语言特性做了更新。
 
-![https://github.com/fengzhongyun1992/download_rs/actions](https://github.com/fengzhongyun1992/download_rs/workflows/Rust/badge.svg)
 ![https://github.com/fengzhongyun1992/download_rs/blob/master/LICENSE](https://img.shields.io/badge/license-Apache2.0-blue.svg)
 
 ## 简单使用

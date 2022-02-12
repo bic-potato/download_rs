@@ -1,8 +1,8 @@
 [package]
-name = "download_rs"
-version = "0.2.0"
+name = "download_rs_reborned"
+version = "0.2.1"
 authors = ["fengzhongyun1992 <1677658490@qq.com>"]
-edition = "2018"
+edition = "2021"
 keywords = ["download"]
 license = "MIT/Apache-2.0"
 repository = "https://github.com/fengzhongyun1992/download_rs"
@@ -53,9 +53,9 @@ async_download = ["tokio","indicatif",]
 
 [dependencies]
 # optional 是否可选，在 features 中 可供 选择
-reqwest = { version = "0.10", features = ["blocking"] }
-tokio = { version = "0.2", features = ["full"] ,optional = true}
-indicatif = {version = "0.13.0", optional=true}
+reqwest = { version = "0.11.9", features = ["blocking"] }
+tokio = { version = "1.16.1", features = ["full"] ,optional = true}
+indicatif = {version = "0.16.2", optional=true}
 
 
 # 指定测试时的 features 依赖
