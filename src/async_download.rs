@@ -1,7 +1,7 @@
 use tokio::{fs, io::AsyncWriteExt};
 use reqwest::{Url, header};
 //use tokio::prelude::*;
-use std::path::{Path, PathBuf};
+use std::{path::{Path, PathBuf}, io::{Error, ErrorKind}};
 use tokio::runtime::Runtime;
 use indicatif::{ProgressBar, ProgressStyle};
 
@@ -59,7 +59,7 @@ impl<'a> Download<'a>{
    ///
    /// ```
     pub fn download(&self) ->Result<(),  Box<dyn std::error::Error>> {
-        let mut rt = Runtime::new()?;
+        let rt = Runtime::new()?;
         rt.block_on(self.download_async())?;
 
        Ok(())
@@ -122,6 +122,8 @@ impl<'a> Download<'a>{
         println!("path: {}",out_filename.display());
 
         let resp = client.head(self.url).send().await?;
+        if resp.status().is_success(){
+
         let total_size = resp.content_length().unwrap();
         println!("url is {}",self.url);
         println!("total_size is {}",total_size);
@@ -146,5 +148,8 @@ impl<'a> Download<'a>{
         }
         println!("Download of '{}' has been completed.", out_filename.to_str().unwrap());
         Ok(())
+    } else {
+       Err(Box::new( Error::new(ErrorKind::Other, format!("Download Err, Status Code: {}", resp.status().as_str()))))
     }
+}
 }

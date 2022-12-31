@@ -1,11 +1,11 @@
 [package]
 name = "download_rs_reborned"
-version = "0.2.1"
-authors = ["fengzhongyun1992 <1677658490@qq.com>"]
+version = "0.2.2"
+authors = ["fengzhongyun1992 <1677658490@qq.com>", "bic-potato <m13333318502@163.com>"]
 edition = "2021"
 keywords = ["download"]
 license = "MIT/Apache-2.0"
-repository = "https://github.com/fengzhongyun1992/download_rs"
+repository = "https://github.com/bic-potato/download_rs"
 documentation = "https://docs.rs/download_rs"
 readme = "README.md"
 autotests = true
